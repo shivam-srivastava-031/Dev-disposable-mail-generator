@@ -1,11 +1,26 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { EmailGenerator } from "@/components/EmailGenerator";
+import { InboxView } from "@/components/InboxView";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import type { MailAccount } from "@/services/mailTmService";
 
 const Index = () => {
+  const [account, setAccount] = useState<MailAccount | null>(null);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-background transition-colors">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
+      
+      <div className="container mx-auto px-4 py-16">
+        <EmailGenerator onAccountCreated={setAccount} />
+        
+        {account && (
+          <div className="mt-12">
+            <InboxView token={account.token} />
+          </div>
+        )}
       </div>
     </div>
   );
